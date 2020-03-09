@@ -43,10 +43,10 @@ class RegisterURL(Resource):
         url = arg["url"]
         
         if len(url) > config.MAX_URL_LENGTH:
-            abort(400, message = 'This url is too long')
+            abort(400, status = 400, message = 'This url is too long')
         else:
             # Encrypt url 
-            url = url + str(time.time())
+            urlWithTimestemp = url + str(time.time())
             encodeUrl = url.encode()
             shortCode = base62.encodebytes(hashlib.md5(encodeUrl).digest()[-5:])
 
@@ -57,7 +57,8 @@ class RegisterURL(Resource):
             # Return successful result
             retJosn = {
                 "status": 200,
-                "short_url": shortCode 
+                "short_code": shortCode,
+                "short_url": config.API_BASE_URL + config.API_PORT + shortCode
             }
             app.logger.info("Register url success")
             return jsonify(retJosn)
@@ -68,12 +69,12 @@ class RedirctShortURL(Resource):
         self.db = db
         self.parser = reqparse.RequestParser()
 
-    def get(self, shortCode):
-        if len(shortCode) == 7:
+    def get(self, short_code):
+        if len(short_code) == 7:
 
             # Get long URL in database
             urls = UrlModel.UrlModel(db)
-            result = urls.getUrl(shortCode)
+            result = urls.getUrl(short_code)
 
             # If long URL exist, redirect.
             if result and 'url' in result:
@@ -81,10 +82,10 @@ class RedirctShortURL(Resource):
                 return redirect(result['url'])
             else:
                 app.logger.error("Redirect url: %s",result['url'])
-                abort(400, message = 'This shorten url is invalid')
+                abort(400, status = 400, message = 'This shorten url is invalid')
         else:
             app.logger.error("This shorten url is invalid")
-            abort(400, message = 'This shorten url is invalid')
+            abort(400, status = 400, message = 'This shorten url is invalid')
 
 
 class Home(Resource):
@@ -99,7 +100,7 @@ class Home(Resource):
 
 #API routing
 api.add_resource(RegisterURL, '/shortener', resource_class_kwargs={'db': db})
-api.add_resource(RedirctShortURL, '/<shortCode>', resource_class_kwargs={'db': db})
+api.add_resource(RedirctShortURL, '/<short_code>', resource_class_kwargs={'db': db})
 api.add_resource(Home, '/')
 
 #if __name__ == "__main__":

@@ -4,6 +4,8 @@ from config import Config
 # Get config 
 config = Config()
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
 #    app.run()
-    app.run(host='0.0.0.0',port=5000, debug=config.DEBUG)
+
+if __name__ == "__main__":
+   app.run(host='0.0.0.0',port=5000, debug=config.DEBUG)

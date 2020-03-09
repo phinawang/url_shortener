@@ -28,6 +28,7 @@ RUN pip install -r /usr/src/app/requirements.txt
 # add (the rest of) our code
 COPY ./app /usr/src/app/
 COPY app.ini /usr/src/app/
+COPY app.service /usr/src/app/
 COPY app-entrypoint.sh /
 RUN mkdir /var/log/flask/
 RUN chmod -R 755 /var/log/flask/

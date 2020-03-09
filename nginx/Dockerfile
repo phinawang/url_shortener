@@ -7,5 +7,5 @@ RUN addgroup -S www-data && adduser -S -G www-data www-data
 
 CMD ["nginx"]
 
-EXPOSE 80
+EXPOSE 5000
 EXPOSE 443

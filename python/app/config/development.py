@@ -3,6 +3,8 @@
 import os
 
 config = dict(
+    API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost'),
+    API_PORT = os.getenv('API_PORT', '5000'),
     DB_HOSTS = os.getenv('MONGO_HOST', 'mongodb').split(','),
     DB_DATABASE_NAME = os.getenv('DB_NAME', 'projectDB'),
     DB_USER = os.getenv('MONGO_USER', None),

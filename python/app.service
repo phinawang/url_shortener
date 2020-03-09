@@ -6,8 +6,8 @@ After=network.target
 User=www-data
 Group=www-data
 WorkingDirectory=/usr/src/app
-Environment="PATH=/usr/src/app/venv/bin"
-ExecStart=/usr/src/app/venv/bin/uwsgi --ini app.ini ---uid www-data --gid www-data
+Environment="PATH=/usr/src/app"
+ExecStart=/usr/sbin/uwsgi --ini app.ini --uid www-data --gid www-data
 
 [Install]
 WantedBy=multi-user.target
