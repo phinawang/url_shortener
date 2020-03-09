@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+    mongodb:
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./data/db:/data/db        
+        environment:
+            MONGO_DATA_DIR: /data/db
+            MONGO_INITDB_ROOT_USERNAME: $MONGO_USERNAME
+            MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+            MONGO_INITDB_DATABASE: $MONGO_DBNAME
+        restart: always
+    python:
+        build:
+            context: ./python
+        ports:
+            - "5000:5000"
+        volumes:
+            - ./logs/app:/usr/src/app/logs
+        restart: always
+        depends_on:
+            - mongodb
+        environment:    
+            MONGO_HOST: mongodb
+    nginx:
+        build:
+            context: ./nginx
+        volumes:
+            - ./logs/nginx/:/var/log/nginx:cached
+            - ./python/app:/usr/src/app
+        depends_on:
+            - python
+            - mongodb
+        ports:
+            - 8080:80
+        restart: always
+
+volumes:
+    app_src:

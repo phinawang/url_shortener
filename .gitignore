@@ -1,0 +1,40 @@
+# -- URL shortener ---
+
+/data/
+/dist/*
+/venv/*
+/PyMongoVue.egg-info/*
+.egg*
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# -- Operating Systems ------------------------------
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+!.gitignore
+!.bowerrc
+!.circleci
+
+# Mac OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
